@@ -1,0 +1,24 @@
+{
+	"manifest_version": 3,
+	"name": "Color",
+	"minimum_chrome_version": "24.0.1307.0",
+	"version": "0.0.1",
+	"background": {
+		"service_worker": "scripts/background.js"
+	},
+	"homepage_url": "https://sarahmorrisonsmith.com/",
+	"icons": {},
+	"permissions": [
+		"activeTab"
+	],
+	"content_scripts": [
+		{
+			"matches": ["*://*/*", "file:///*"],
+
+			"js": ["scripts/jquery.min.js", "scripts/color.js"],
+			"css": ["css/color.css"],
+			"run_at": "document_idle"
+		}
+		]
+
+}
