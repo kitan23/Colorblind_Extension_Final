@@ -435,6 +435,7 @@ chrome.runtime.onMessage.addListener(
 				// Arguments: valueG is the value from slider G
 				const sliderChangeGreen = (valueG) => {
 					console.log("Slider changed Green");
+					greenSliderVal = valueG;
 					const imageData = canvasContent.getImageData(0, 0, thisCanvas.width, thisCanvas.height);
 					const data = imageData.data;
 
@@ -448,7 +449,7 @@ chrome.runtime.onMessage.addListener(
 				// Arguments: valueR is the value from slider R
 				const sliderChangeRed = (valueR) => {
 					console.log("Slider changed Red");
-
+					redSliderVal = valueR;
 					const imageData = canvasContent.getImageData(0, 0, thisCanvas.width, thisCanvas.height);
 					const data = imageData.data;
 
@@ -464,7 +465,7 @@ chrome.runtime.onMessage.addListener(
 					console.log("Slider changed Blue");
 					const imageData = canvasContent.getImageData(0, 0, thisCanvas.width, thisCanvas.height);
 					const data = imageData.data;
-
+					blueSliderVal = valueB;
 					for (let index = 0; index < data.length; index += 4) {
 						data[index + 2] = valueB;
 					}
@@ -648,7 +649,6 @@ document.addEventListener("keydown", function (e) {
 			let original = parseInt(blueSlider.value);
 			let newval = original + (20 / imageCount);
 			 blueSlider.value = newval.toString();
-			 console.log(newval)
 			 sliderChangeBlue(blueSlider.value);
 
 		} else if (redactivated) {
@@ -656,7 +656,6 @@ document.addEventListener("keydown", function (e) {
 			let newval = original + (20 / imageCount)
 			 redSlider.value = newval.toString()
 			 sliderChangeRed(redSlider.value);
-			 console.log(redSlider.value)
 
 		} else if (greenactivated) {
 			let original = parseInt(greenSlider.value);
