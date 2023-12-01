@@ -22,6 +22,7 @@ let deu = false;
 let pro = false;
 let ach = false;
 let tri = false;
+let menuOpened = false;
 
 
 function createRGBSlider(colorValue) {
@@ -93,18 +94,18 @@ function createButton8(buttonName) {
 //DESC: Used to learn how to create a grid layout menu.
 let menu = `
 	<div id="colorBlindMenu">
-	<div class="choiceItem">${createButton3("Toggle Black White Theme")}</div>
-	<div class="choiceItem">${createButton1("Save Preset")}</div>
-	<div class="choiceItem">${createButton2("Load Preset")}</div>
-	<div class="choiceItem">${createButton0("Revert Images")}</div>
-	<div class="choiceItem">${createButton5("Deuteranopia")}</div>
-	<div class="choiceItem">${createButton7("Tritanopia")}</div>
-	<div class="choiceItem">${createButton8("Achromatopsia")}</div>
-	<div class="choiceItem">${createButton6("Protanopia")}</div>
-	<div class="choiceItem">${createResetButton()}</div>
-	<div class="choiceItem">${createRGBSlider("Red")}</div>
-	<div class="choiceItem">${createRGBSlider("Green")}</div>
-	<div class="choiceItem">${createRGBSlider("Blue")}</div>
+	<div class="choiceItem">0. ${createButton3("Toggle Black White")}</div>
+	<div class="choiceItem">1. ${createButton1("Save Preset")}</div>
+	<div class="choiceItem">2. ${createButton2("Load Preset")}</div>
+	<div class="choiceItem">3. ${createButton0("Revert Images")}</div>
+	<div class="choiceItem">4. ${createButton5("Deuteranopia")}</div>
+	<div class="choiceItem">5. ${createButton7("Tritanopia")}</div>
+	<div class="choiceItem">6. ${createButton8("Achromatopsia")}</div>
+	<div class="choiceItem">7. ${createButton6("Protanopia")}</div>
+	<div class="choiceItem">8. ${createResetButton()}</div>
+	<div class="choiceItem">R. ${createRGBSlider("Red")}</div>
+	<div class="choiceItem">G. ${createRGBSlider("Green")}</div>
+	<div class="choiceItem">B. ${createRGBSlider("Blue")}</div>
 	</div>
 	`;
 
@@ -154,12 +155,16 @@ document.querySelector("#colorBlindMenu").addEventListener("click", function (ev
 const colorBlindButton = document.getElementById("optionsButton");
 const colorBlindMenu = document.getElementById("colorBlindMenu");
 colorBlindButton.addEventListener("click", function () {
+
 	if (colorBlindMenu.style.visibility == "hidden") {
+		menuOpened = true;
 		colorBlindMenu.style.visibility = "visible";
 	} else {
+		menuOpened = false;
 		colorBlindMenu.style.visibility = "hidden";
 	}
 });
+
 
 
 // function to toggle black text on white background theme
@@ -482,18 +487,21 @@ chrome.runtime.onMessage.addListener(
 				// 1. R, G, B Slider change image colors:
 				//CITE: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_js_rangeslider
 				//DESC: Used to learn how to create a slider and store its value.
-				const redSlider = document.getElementById("Red");
-				const greenSlider = document.getElementById("Green");
-				const blueSlider = document.getElementById("Blue");
+				let redSlider = document.getElementById("Red");
+				let greenSlider = document.getElementById("Green");
+				let blueSlider = document.getElementById("Blue");
 
 				redSlider.addEventListener('input', (event) => {
 					sliderChangeRed(redSlider.value);
+					redSliderVal = redSlider.value;
 				});
 				greenSlider.addEventListener('input', (event) => {
 					sliderChangeGreen(greenSlider.value);
+					greenSliderVal = greenSlider.value;
 				});
 				blueSlider.addEventListener('input', (event) => {
 					sliderChangeBlue(blueSlider.value);
+					blueSliderVal = blueSlider.value;
 				});
 
 				// 2. Four colorblind modes
@@ -578,25 +586,6 @@ chrome.runtime.onMessage.addListener(
 						console.log("h");
 						toggleWhiteOnBlackTheme();
 					}
-					// if (retrieved.greenInvert == true) {
-					// 	loopThroughImgs();
-					// 	loopThroughImgs();
-					// }
-					// if (retrieved.redInvert == true) {
-					// 	loopThroughImgs();
-					// }
-					// if (retrieved.blueInvert == true) {
-					// 	loopThroughImgs();
-					// }
-					// if (retrieved.greenDelete == true) {
-					// 	loopThroughImgs();
-					// }
-					// if (retrieved.redDelete == true) {
-					// 	loopThroughImgs();
-					// }
-					// if (retrieved.blueDelete == true) {
-					// 	loopThroughImgs();
-					// }
 					// if (retrieved.originalImage == true) {
 					// 	RevertImageToOri();
 					// }
@@ -616,7 +605,149 @@ chrome.runtime.onMessage.addListener(
 						filterName = 7;
 						tritan();
 					}
+					if (retrieved.redSlider != 0) {
+						sliderChangeRed(retrieved.redSlider);
+					}
+					if (retrieved.blueSlider != 0) {
+						sliderChangeBlue(retrieved.blueSlider);
+					}
+					if (retrieved.greenSlider != 0) {
+						sliderChangeGreen(retrieved.greenSlider);
+					}
 				});
+
+
+// 							// KEYBOARD FUNCTIONALITY
+
+// let blueactivated = false;
+// let redactivated = false;
+// let greenactivated = false;
+// document.addEventListener("keydown", function (e) {
+// 	//e.preventDefault();
+// 	let redSlider = document.getElementById("Red");
+// 	let greenSlider = document.getElementById("Green");
+// 	let blueSlider = document.getElementById("Blue");
+// 	if (e.code == "Space") {
+// 		//If menu is open, then open it. Otherwise, press close
+// 		document.querySelector("#optionsButton").click()
+// 		//document.getElementById("optionsButton")
+// 	}
+// 	else if (menuOpened = true && e.code == "KeyB") {
+// 		blueactivated = true;
+// 		redactivated = false;
+// 		greenactivated = false;
+// 	}
+// 	else if (menuOpened = true && e.code == "KeyR") {
+// 		blueactivated = false;
+// 		redactivated = true;
+// 		greenactivated = false;
+// 	}
+// 	else if (menuOpened = true && e.code == "KeyG") {
+// 		blueactivated = false;
+// 		redactivated = false;
+// 		greenactivated = true;
+// 	}
+// 	else if (menuOpened = true && e.code == "Equal") {
+// 		if (blueactivated) {
+// 			let original = parseInt(blueSlider.value);
+// 			let newval = original + 20
+// 			 blueSlider.value = newval.toString()
+// 			 sliderChangeBlue(blueSlider.value);
+
+// 		} else if (redactivated) {
+// 			let original = parseInt(redSlider.value);
+// 			let newval = original + 20
+// 			 redSlider.value = newval.toString()
+// 			 sliderChangeRed(redSlider.value);
+// 			 console.log(redSlider.value)
+
+// 		} else if (greenactivated) {
+// 			let original = parseInt(greenSlider.value);
+// 			let newval = original + 20
+// 			 greenSlider.value = newval.toString()
+// 			 sliderChangeGreen(greenSlider.value);
+// 		}
+// 	}
+// 	else if (menuOpened = true && e.code == "Minus") {
+// 		if (blueactivated) {
+// 			let original = parseInt(blueSlider.value);
+// 			let newval = original - 20
+// 			if (newval < 0) {
+// 				newval = 0;
+// 			}
+// 			 blueSlider.value = newval.toString()
+// 			 sliderChangeBlue(blueSlider.value);
+
+// 		} else if (redactivated) {
+// 			let original = parseInt(redSlider.value);
+// 			let newval = original - 20
+// 			if (newval < 0) {
+// 				newval = 0;
+// 			}
+// 			 redSlider.value = newval.toString()
+// 			 sliderChangeRed(redSlider.value);
+
+// 		} else if (greenactivated) {
+// 			let original = parseInt(greenSlider.value);
+// 			let newval = original - 20
+// 			if (newval < 0) {
+// 				newval = 0;
+// 			}
+// 			 greenSlider.value = newval.toString()
+// 			 sliderChangeGreen(greenSlider.value);
+
+// 		}
+// 	}
+// 	else if (menuOpened = true && e.code == "Digit0") {
+// 		console.log("yes")
+// 		let blackWhiteBtn = document.getElementById("blackWhite")
+// 		blackWhiteBtn.click()
+// 	}
+// 	else if (menuOpened = true && e.code == "Digit1") {
+
+// 		let savePresetBtn = document.getElementById("SavePreset");
+// 		savePresetBtn.click()
+// 	}
+// 	else if (menuOpened = true && e.code == "Digit2") {
+// 		let loadPresetBtn = document.getElementById("LoadPreset");
+// 		loadPresetBtn.click()
+// 	}
+
+// 	else if (menuOpened = true && e.code == "Digit3") {
+// 		let revertBtn = document.getElementById("revertColor");
+// 		revertBtn.click()
+// 		//revert
+// 	}
+// 	else if (menuOpened = true && e.code == "Digit4") {
+
+// 		let deuModeBtn = document.getElementById("deuter");
+// 		deuModeBtn.click()
+// 		//deu
+// 	}
+// 	else if (menuOpened = true && e.code == "Digit5") {
+
+// 		let triModeBtn = document.getElementById("tritan");
+// 		triModeBtn.click()
+// 		//tri
+// 	}
+// 	else if (menuOpened = true && e.code == "Digit6") {
+// 		let achModeBtn = document.getElementById("achoma");
+// 		achModeBtn.click()
+// 		//achr
+// 	}
+// 	else if (menuOpened = true && e.code == "Digit7") {
+
+// 		let proModeBtn = document.getElementById("protan");
+// 		proModeBtn.click()
+// 		//pro
+// 	}
+// 	else if (menuOpened = true && e.code == "Digit8") {
+// 		console.log("yes")
+// 		//reset
+// 	}
+// });
+
+
 
 
 
@@ -636,6 +767,154 @@ chrome.runtime.onMessage.addListener(
 					canvasContent.drawImage(thisImage, 0, 0, thisCanvas.width, thisCanvas.height);
 				};
 			});
+
+			//here
+										// KEYBOARD FUNCTIONALITY
+
+let blueactivated = false;
+let redactivated = false;
+let greenactivated = false;
+document.addEventListener("keydown", function (e) {
+	//e.preventDefault();
+	let redSlider = document.getElementById("Red");
+	let greenSlider = document.getElementById("Green");
+	let blueSlider = document.getElementById("Blue");
+	if (e.code == "Space") {
+		//If menu is open, then open it. Otherwise, press close
+		document.querySelector("#optionsButton").click()
+		//document.getElementById("optionsButton")
+	}
+	//move this into the other one and just lower the value from 20 
+	else if (menuOpened = true && e.code == "KeyB") {
+		blueactivated = true;
+		redactivated = false;
+		greenactivated = false;
+	}
+	else if (menuOpened = true && e.code == "KeyR") {
+		blueactivated = false;
+		redactivated = true;
+		greenactivated = false;
+	}
+	else if (menuOpened = true && e.code == "KeyG") {
+		blueactivated = false;
+		redactivated = false;
+		greenactivated = true;
+	}
+	else if (menuOpened = true && e.code == "Equal") {
+		if (blueactivated) {
+			let original = parseInt(blueSlider.value);
+			let newval = original + 20
+			 blueSlider.value = newval.toString()
+			 sliderChangeBlue(blueSlider.value);
+
+		} else if (redactivated) {
+			let original = parseInt(redSlider.value);
+			let newval = original + 20
+			 redSlider.value = newval.toString()
+			 sliderChangeRed(redSlider.value);
+			 console.log(redSlider.value)
+
+		} else if (greenactivated) {
+			let original = parseInt(greenSlider.value);
+			let newval = original + 20
+			 greenSlider.value = newval.toString()
+			 sliderChangeGreen(greenSlider.value);
+		}
+	}
+	else if (menuOpened = true && e.code == "Minus") {
+		if (blueactivated) {
+			let original = parseInt(blueSlider.value);
+			let newval = original - 20
+			if (newval < 0) {
+				newval = 0;
+			}
+			 blueSlider.value = newval.toString()
+			 sliderChangeBlue(blueSlider.value);
+
+		} else if (redactivated) {
+			let original = parseInt(redSlider.value);
+			let newval = original - 20
+			if (newval < 0) {
+				newval = 0;
+			}
+			 redSlider.value = newval.toString()
+			 sliderChangeRed(redSlider.value);
+
+		} else if (greenactivated) {
+			let original = parseInt(greenSlider.value);
+			let newval = original - 20
+			if (newval < 0) {
+				newval = 0;
+			}
+			 greenSlider.value = newval.toString()
+			 sliderChangeGreen(greenSlider.value);
+
+		}
+	}
+	else if (menuOpened = true && e.code == "Digit0") {
+		console.log("yes")
+		let blackWhiteBtn = document.getElementById("blackWhite")
+		blackWhiteBtn.click()
+	}
+	else if (menuOpened = true && e.code == "Digit1") {
+
+		let savePresetBtn = document.getElementById("SavePreset");
+		savePresetBtn.click()
+	}
+	else if (menuOpened = true && e.code == "Digit2") {
+		let loadPresetBtn = document.getElementById("LoadPreset");
+		loadPresetBtn.click()
+	}
+
+	else if (menuOpened = true && e.code == "Digit3") {
+		let revertBtn = document.getElementById("revertColor");
+		revertBtn.click()
+		//revert
+	}
+	else if (menuOpened = true && e.code == "Digit4") {
+
+		let deuModeBtn = document.getElementById("deuter");
+		deuModeBtn.click()
+		//deu
+	}
+	else if (menuOpened = true && e.code == "Digit5") {
+
+		let triModeBtn = document.getElementById("tritan");
+		triModeBtn.click()
+		//tri
+	}
+	else if (menuOpened = true && e.code == "Digit6") {
+		let achModeBtn = document.getElementById("achoma");
+		achModeBtn.click()
+		//achr
+	}
+	else if (menuOpened = true && e.code == "Digit7") {
+
+		let proModeBtn = document.getElementById("protan");
+		proModeBtn.click()
+		//pro
+	}
+	else if (menuOpened = true && e.code == "Digit8") {
+		let resetPageBtn = document.getElementById("reset");
+		resetPageBtn.click();
+		//reset
+	}
+});
 //});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		}
 });
+
