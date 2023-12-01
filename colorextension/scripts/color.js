@@ -618,134 +618,83 @@ chrome.runtime.onMessage.addListener(
 
 
 // 							// KEYBOARD FUNCTIONALITY
+let blueactivated = false;
+let redactivated = false;
+let greenactivated = false;
+document.addEventListener("keydown", function (e) {
+	//e.preventDefault();
+	let redSlider = document.getElementById("Red");
+	let greenSlider = document.getElementById("Green");
+	let blueSlider = document.getElementById("Blue");
+	let imageCount = document.getElementsByTagName("img").length;
+	//move this into the other one and just lower the value from 20 
+	if (menuOpened = true && e.code == "KeyB") {
+		blueactivated = true;
+		redactivated = false;
+		greenactivated = false;
+	}
+	else if (menuOpened = true && e.code == "KeyR") {
+		blueactivated = false;
+		redactivated = true;
+		greenactivated = false;
+	}
+	else if (menuOpened = true && e.code == "KeyG") {
+		blueactivated = false;
+		redactivated = false;
+		greenactivated = true;
+	}
+	else if (menuOpened = true && e.code == "Equal") {
+		if (blueactivated) {
+			let original = parseInt(blueSlider.value);
+			let newval = original + (20 / imageCount);
+			 blueSlider.value = newval.toString();
+			 console.log(newval)
+			 sliderChangeBlue(blueSlider.value);
 
-// let blueactivated = false;
-// let redactivated = false;
-// let greenactivated = false;
-// document.addEventListener("keydown", function (e) {
-// 	//e.preventDefault();
-// 	let redSlider = document.getElementById("Red");
-// 	let greenSlider = document.getElementById("Green");
-// 	let blueSlider = document.getElementById("Blue");
-// 	if (e.code == "Space") {
-// 		//If menu is open, then open it. Otherwise, press close
-// 		document.querySelector("#optionsButton").click()
-// 		//document.getElementById("optionsButton")
-// 	}
-// 	else if (menuOpened = true && e.code == "KeyB") {
-// 		blueactivated = true;
-// 		redactivated = false;
-// 		greenactivated = false;
-// 	}
-// 	else if (menuOpened = true && e.code == "KeyR") {
-// 		blueactivated = false;
-// 		redactivated = true;
-// 		greenactivated = false;
-// 	}
-// 	else if (menuOpened = true && e.code == "KeyG") {
-// 		blueactivated = false;
-// 		redactivated = false;
-// 		greenactivated = true;
-// 	}
-// 	else if (menuOpened = true && e.code == "Equal") {
-// 		if (blueactivated) {
-// 			let original = parseInt(blueSlider.value);
-// 			let newval = original + 20
-// 			 blueSlider.value = newval.toString()
-// 			 sliderChangeBlue(blueSlider.value);
+		} else if (redactivated) {
+			let original = parseInt(redSlider.value);
+			let newval = original + (20 / imageCount)
+			 redSlider.value = newval.toString()
+			 sliderChangeRed(redSlider.value);
+			 console.log(redSlider.value)
 
-// 		} else if (redactivated) {
-// 			let original = parseInt(redSlider.value);
-// 			let newval = original + 20
-// 			 redSlider.value = newval.toString()
-// 			 sliderChangeRed(redSlider.value);
-// 			 console.log(redSlider.value)
+		} else if (greenactivated) {
+			let original = parseInt(greenSlider.value);
+			let newval = original + (20 / imageCount)
+			 greenSlider.value = newval.toString()
+			 sliderChangeGreen(greenSlider.value);
+		}
+	}
+	else if (menuOpened = true && e.code == "Minus") {
+		if (blueactivated) {
+			let original = parseInt(blueSlider.value);
+			let newval = original - (20 / imageCount)
+			if (newval < 0) {
+				newval = 0;
+			}
+			 blueSlider.value = newval.toString()
+			 sliderChangeBlue(blueSlider.value);
 
-// 		} else if (greenactivated) {
-// 			let original = parseInt(greenSlider.value);
-// 			let newval = original + 20
-// 			 greenSlider.value = newval.toString()
-// 			 sliderChangeGreen(greenSlider.value);
-// 		}
-// 	}
-// 	else if (menuOpened = true && e.code == "Minus") {
-// 		if (blueactivated) {
-// 			let original = parseInt(blueSlider.value);
-// 			let newval = original - 20
-// 			if (newval < 0) {
-// 				newval = 0;
-// 			}
-// 			 blueSlider.value = newval.toString()
-// 			 sliderChangeBlue(blueSlider.value);
+		} else if (redactivated) {
+			let original = parseInt(redSlider.value);
+			let newval = original - (20 / imageCount)
+			if (newval < 0) {
+				newval = 0;
+			}
+			 redSlider.value = newval.toString()
+			 sliderChangeRed(redSlider.value);
 
-// 		} else if (redactivated) {
-// 			let original = parseInt(redSlider.value);
-// 			let newval = original - 20
-// 			if (newval < 0) {
-// 				newval = 0;
-// 			}
-// 			 redSlider.value = newval.toString()
-// 			 sliderChangeRed(redSlider.value);
+		} else if (greenactivated) {
+			let original = parseInt(greenSlider.value);
+			let newval = original - (20 / imageCount)
+			if (newval < 0) {
+				newval = 0;
+			}
+			 greenSlider.value = newval.toString()
+			 sliderChangeGreen(greenSlider.value);
 
-// 		} else if (greenactivated) {
-// 			let original = parseInt(greenSlider.value);
-// 			let newval = original - 20
-// 			if (newval < 0) {
-// 				newval = 0;
-// 			}
-// 			 greenSlider.value = newval.toString()
-// 			 sliderChangeGreen(greenSlider.value);
-
-// 		}
-// 	}
-// 	else if (menuOpened = true && e.code == "Digit0") {
-// 		console.log("yes")
-// 		let blackWhiteBtn = document.getElementById("blackWhite")
-// 		blackWhiteBtn.click()
-// 	}
-// 	else if (menuOpened = true && e.code == "Digit1") {
-
-// 		let savePresetBtn = document.getElementById("SavePreset");
-// 		savePresetBtn.click()
-// 	}
-// 	else if (menuOpened = true && e.code == "Digit2") {
-// 		let loadPresetBtn = document.getElementById("LoadPreset");
-// 		loadPresetBtn.click()
-// 	}
-
-// 	else if (menuOpened = true && e.code == "Digit3") {
-// 		let revertBtn = document.getElementById("revertColor");
-// 		revertBtn.click()
-// 		//revert
-// 	}
-// 	else if (menuOpened = true && e.code == "Digit4") {
-
-// 		let deuModeBtn = document.getElementById("deuter");
-// 		deuModeBtn.click()
-// 		//deu
-// 	}
-// 	else if (menuOpened = true && e.code == "Digit5") {
-
-// 		let triModeBtn = document.getElementById("tritan");
-// 		triModeBtn.click()
-// 		//tri
-// 	}
-// 	else if (menuOpened = true && e.code == "Digit6") {
-// 		let achModeBtn = document.getElementById("achoma");
-// 		achModeBtn.click()
-// 		//achr
-// 	}
-// 	else if (menuOpened = true && e.code == "Digit7") {
-
-// 		let proModeBtn = document.getElementById("protan");
-// 		proModeBtn.click()
-// 		//pro
-// 	}
-// 	else if (menuOpened = true && e.code == "Digit8") {
-// 		console.log("yes")
-// 		//reset
-// 	}
-// });
+		}
+	}});
 
 
 
@@ -771,86 +720,96 @@ chrome.runtime.onMessage.addListener(
 			//here
 										// KEYBOARD FUNCTIONALITY
 
-let blueactivated = false;
-let redactivated = false;
-let greenactivated = false;
+// let blueactivated = false;
+// let redactivated = false;
+// let greenactivated = false;
 document.addEventListener("keydown", function (e) {
 	//e.preventDefault();
-	let redSlider = document.getElementById("Red");
-	let greenSlider = document.getElementById("Green");
-	let blueSlider = document.getElementById("Blue");
+
+
+	// let redSlider = document.getElementById("Red");
+	// let greenSlider = document.getElementById("Green");
+	// let blueSlider = document.getElementById("Blue");
+
+
 	if (e.code == "Space") {
 		//If menu is open, then open it. Otherwise, press close
 		document.querySelector("#optionsButton").click()
 		//document.getElementById("optionsButton")
 	}
 	//move this into the other one and just lower the value from 20 
-	else if (menuOpened = true && e.code == "KeyB") {
-		blueactivated = true;
-		redactivated = false;
-		greenactivated = false;
-	}
-	else if (menuOpened = true && e.code == "KeyR") {
-		blueactivated = false;
-		redactivated = true;
-		greenactivated = false;
-	}
-	else if (menuOpened = true && e.code == "KeyG") {
-		blueactivated = false;
-		redactivated = false;
-		greenactivated = true;
-	}
-	else if (menuOpened = true && e.code == "Equal") {
-		if (blueactivated) {
-			let original = parseInt(blueSlider.value);
-			let newval = original + 20
-			 blueSlider.value = newval.toString()
-			 sliderChangeBlue(blueSlider.value);
 
-		} else if (redactivated) {
-			let original = parseInt(redSlider.value);
-			let newval = original + 20
-			 redSlider.value = newval.toString()
-			 sliderChangeRed(redSlider.value);
-			 console.log(redSlider.value)
 
-		} else if (greenactivated) {
-			let original = parseInt(greenSlider.value);
-			let newval = original + 20
-			 greenSlider.value = newval.toString()
-			 sliderChangeGreen(greenSlider.value);
-		}
-	}
-	else if (menuOpened = true && e.code == "Minus") {
-		if (blueactivated) {
-			let original = parseInt(blueSlider.value);
-			let newval = original - 20
-			if (newval < 0) {
-				newval = 0;
-			}
-			 blueSlider.value = newval.toString()
-			 sliderChangeBlue(blueSlider.value);
 
-		} else if (redactivated) {
-			let original = parseInt(redSlider.value);
-			let newval = original - 20
-			if (newval < 0) {
-				newval = 0;
-			}
-			 redSlider.value = newval.toString()
-			 sliderChangeRed(redSlider.value);
+	// else if (menuOpened = true && e.code == "KeyB") {
+	// 	blueactivated = true;
+	// 	redactivated = false;
+	// 	greenactivated = false;
+	// }
+	// else if (menuOpened = true && e.code == "KeyR") {
+	// 	blueactivated = false;
+	// 	redactivated = true;
+	// 	greenactivated = false;
+	// }
+	// else if (menuOpened = true && e.code == "KeyG") {
+	// 	blueactivated = false;
+	// 	redactivated = false;
+	// 	greenactivated = true;
+	// }
 
-		} else if (greenactivated) {
-			let original = parseInt(greenSlider.value);
-			let newval = original - 20
-			if (newval < 0) {
-				newval = 0;
-			}
-			 greenSlider.value = newval.toString()
-			 sliderChangeGreen(greenSlider.value);
 
-		}
-	}
+
+	// else if (menuOpened = true && e.code == "Equal") {
+	// 	if (blueactivated) {
+	// 		let original = parseInt(blueSlider.value);
+	// 		let newval = original + 20
+	// 		 blueSlider.value = newval.toString()
+	// 		 sliderChangeBlue(blueSlider.value);
+
+	// 	} else if (redactivated) {
+	// 		let original = parseInt(redSlider.value);
+	// 		let newval = original + 20
+	// 		 redSlider.value = newval.toString()
+	// 		 sliderChangeRed(redSlider.value);
+	// 		 console.log(redSlider.value)
+
+	// 	} else if (greenactivated) {
+	// 		let original = parseInt(greenSlider.value);
+	// 		let newval = original + 20
+	// 		 greenSlider.value = newval.toString()
+	// 		 sliderChangeGreen(greenSlider.value);
+	// 	}
+	// }
+	// else if (menuOpened = true && e.code == "Minus") {
+	// 	if (blueactivated) {
+	// 		let original = parseInt(blueSlider.value);
+	// 		let newval = original - 20
+	// 		if (newval < 0) {
+	// 			newval = 0;
+	// 		}
+	// 		 blueSlider.value = newval.toString()
+	// 		 sliderChangeBlue(blueSlider.value);
+
+	// 	} else if (redactivated) {
+	// 		let original = parseInt(redSlider.value);
+	// 		let newval = original - 20
+	// 		if (newval < 0) {
+	// 			newval = 0;
+	// 		}
+	// 		 redSlider.value = newval.toString()
+	// 		 sliderChangeRed(redSlider.value);
+
+	// 	} else if (greenactivated) {
+	// 		let original = parseInt(greenSlider.value);
+	// 		let newval = original - 20
+	// 		if (newval < 0) {
+	// 			newval = 0;
+	// 		}
+	// 		 greenSlider.value = newval.toString()
+	// 		 sliderChangeGreen(greenSlider.value);
+
+	// 	}
+	// }
 	else if (menuOpened = true && e.code == "Digit0") {
 		console.log("yes")
 		let blackWhiteBtn = document.getElementById("blackWhite")
