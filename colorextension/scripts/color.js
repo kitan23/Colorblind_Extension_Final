@@ -15,7 +15,8 @@ let blueDeleted = false;
 let redSliderVal = 0;
 let blueSliderVal = 0;
 let greenSliderVal = 0;
-let darkOrOriginal = "original";
+let darkMode = true;
+let darkOrOriginal = "original"
 let originalImages = true;
 let deu = false;
 let pro = false;
@@ -177,10 +178,12 @@ for (var i = 0; i < linksList.length; i++) {
 
 function toggleWhiteOnBlackTheme() {
     console.log("toggle white on black theme");
+    darkMode = !darkMode
 
     if (document.body.classList.contains("whiteOnBlack")) {
         document.body.classList.remove("whiteOnBlack");
         console.log("toggle to BlackOnWhite");
+        darkOrOriginal = "original"
 
         for (var i = 0; i < linksList.length; i++) {
             if (linksList[i].href) {
@@ -189,6 +192,7 @@ function toggleWhiteOnBlackTheme() {
         }
     } else {
         document.body.classList.add("whiteOnBlack");
+
         console.log("toggle to whiteOnBlack");
         darkOrOriginal = "dark";
         for (var i = 0; i < linksList.length; i++) {
@@ -571,6 +575,7 @@ chrome.runtime.onMessage.addListener(
                         deuter: deu,
                         tritan: tri,
                         achro: ach,
+                        darkVer: darkMode
                     };
 
                     localStorage.setItem("allSettings", JSON.stringify(allSettings));
@@ -613,6 +618,9 @@ chrome.runtime.onMessage.addListener(
                     }
                     if (retrieved.greenSlider != 0) {
                         sliderChangeGreen(retrieved.greenSlider);
+                    }
+                    if (darkMode && (darkOrOriginal == "original")) {
+                        toggleWhiteOnBlackTheme()
                     }
                 });
 
